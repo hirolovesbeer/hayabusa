@@ -11,7 +11,7 @@ dir_path = '%d/%02d/%02d/%02d ' % (now.year, now.month, now.day, now.hour)
 db_file = '%.db' % now.minute
 db_path = dirpath + '/' + db_file
 
-mpkath(dir_path)
+mkpath(dir_path)
 
 if not os.path.exists(db_path):
     conn = sqlite3.connect(db_file)

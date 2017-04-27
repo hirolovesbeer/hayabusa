@@ -4,6 +4,7 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
 # Concept
 - Pure python implement
 - Parallel SQLite processing engine
+- SQLite3 FTS(Full Text Search) funstion
 - Core-scale architecture
 
 # Architecture

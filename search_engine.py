@@ -1,4 +1,5 @@
 import argparse
+import configparser
 import subprocess
 
 BASE_DIR = '/var/tmp/data'
@@ -19,6 +20,11 @@ def exec(time, match, count, verbose):
     subprocess.call(cmd, shell=True)
 
 if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    BASE_DIR = config['path']['base-dir']
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--time",
                         help="time explain regexp(YYYY/MM/DD/HH/MIN). eg: 2017/04/27/10/*")

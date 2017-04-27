@@ -1,3 +1,4 @@
+import configparser
 import os.path
 import sqlite3
 
@@ -36,4 +37,10 @@ def main():
             conn.commit()
 
 if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    LOG_FILE = config['path']['log-file']
+    BASE_DIR = config['path']['base-dir']
+
     main()

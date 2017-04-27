@@ -1,15 +1,15 @@
 import argparse
 import subprocess
 
-BASE_DIR = '/path/to/data'
+BASE_DIR = '/var/tmp/data'
 
 def exec(time, match, count, verbose):
     if count:
-        cmd = 'parallel sqlite3 ::: %s/%s ::: "select count(*) from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
+        cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select count(*) from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
         # debug code
         # cmd = 'parallel sqlite3 ::: /mnt/ssd1/benchmark-db/100k/100k-1.db ::: "select count(*) from syslog where logs match \'noc\';"'
     else:
-        cmd = 'parallel sqlite3 ::: %s/%s ::: "select * from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
+        cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select * from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
         # debug code
         # cmd = 'parallel sqlite3 ::: /mnt/ssd1/benchmark-db/100k/100k-1.db ::: "select * from syslog where logs match \'noc\';"'
 

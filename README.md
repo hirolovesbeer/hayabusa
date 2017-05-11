@@ -34,10 +34,19 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
 - SearchEngine
   - sample command
   ```
-  $ parallel sqlite3 ::: target files ::: "select count(*) from xxx where logs match ’ keyword ’;" | awk ’{m+=$1} END{print m;}’
-
-  Parallel Processing : parallel + sqlite command Aggregator : pipe(|) + shell script(awk)
-  ```
+  $ python search_engine.py -h
+  usage: search_engine.py [-h] [--time TIME] [--match MATCH] [-c] [-s] [-v]
+  
+  optional arguments:
+    -h, --help     show this help message and exit
+    --time TIME    time explain regexp(YYYY/MM/DD/HH/MIN). eg: 2017/04/27/10/*
+    --match MATCH  matching keyword. eg: noc or 'noc Login'
+    -c             count
+    -s             sum
+    -v             verbose
+   
+   $ python search_engine.py --time 2017/05/11/13/* --match 'keyword' -c 
+   ```
 
 - Architecture Image
 ![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")

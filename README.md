@@ -13,14 +13,14 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
 - SearchEngine
 
 - Architecture Image
-  - TBD
+![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")
 
 # Development Environment
 - CentOS 7.3
 - Python 3.5.1(use anaconda packages)
 - SQLite3(version 3.9.2)
 
-# Dependency softwares
+# Dependency Softwares
 - Python 3
 - SQLite3
 - GNU Parallel

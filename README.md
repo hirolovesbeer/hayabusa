@@ -47,6 +47,35 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
    
    $ python search_engine.py --time 2017/05/11/13/* --match 'keyword' -c 
    ```
+  - search condition
+    - case-insensitive
+      - no distinguish uppercase or lowercase
+    - AND
+    ```
+    --match 'Hello World'
+    ```
+    - OR
+    ```
+    --match 'Hello OR World'
+    ```
+    - NOT
+    ```
+    --match 'Hello World -Wide'
+    ```
+    - PHRASE
+    ```
+    --match '"Hello World"'
+    ```
+    - *
+    ```
+    --match 'H* World'
+    ```
+    - HAT
+    ```
+    --match '^Hello World'
+    ```
+
+    
 
 - Architecture Image
 ![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")

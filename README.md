@@ -47,7 +47,7 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
    
    $ python search_engine.py --time 2017/05/11/13/* --match 'keyword' -c 
    ```
-  - Architecture image
+ - Architecture image
   ![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")
 
 # Search condition

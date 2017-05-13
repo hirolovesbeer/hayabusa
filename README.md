@@ -47,45 +47,43 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
    
    $ python search_engine.py --time 2017/05/11/13/* --match 'keyword' -c 
    ```
-  - search condition
-    - case-insensitive
-      - no distinguish uppercase or lowercase
-    - AND
+  - Architecture image
+  ![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")
+
+# Search condition
+- case-insensitive
+  - no distinguish uppercase or lowercase
+- AND
     ```
     --match 'Hello World'
     ```
-    - OR
+- OR
     ```
     --match 'Hello OR World'
     ```
-    - NOT
+- NOT
     ```
     --match 'Hello World -Wide'
     ```
-    - PHRASE
+- PHRASE
     ```
     --match '"Hello World"'
     ```
-    - asterisk(*)
+- asterisk(*)
     ```
     --match 'H* World'
     ```
-    - HAT
+- HAT
     ```
     --match '^Hello World'
     ```
 
-    
-
-- Architecture Image
-![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")
-
-# Development Environment
+# Development environment
 - CentOS 7.3
 - Python 3.5.1(use anaconda packages)
 - SQLite3(version 3.9.2)
 
-# Dependency Softwares
+# Dependency softwares
 - Python 3
 - SQLite3
 - GNU Parallel

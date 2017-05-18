@@ -89,4 +89,9 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
 - GNU Parallel
 
 # Benchmark
-- TBD
+## Compare with Apache Spark
+- Hayabusa and Spark time comparison
+![](./image/spark-sqlite-para.png)
+
+- Comarison of distributes Spark environment and the stand-alone Hayabusa
+![](./image/spark-sqlite-dist.png)

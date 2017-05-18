@@ -1,10 +1,10 @@
 # Hayabusa
 Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
-[
+
 # Concept
 - Pure python implement
 - Parallel SQLite processing engine
-- SQLite3 FTS(Full Text Search) funstionaaa
+- SQLite3 FTS(Full Text Search)
 - Core-scale architecture
 
 # Architecture
@@ -34,20 +34,56 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
 - SearchEngine
   - sample command
   ```
-  $ parallel sqlite3 ::: target files ::: "select count(*) from xxx where logs match ’ keyword ’;" | awk ’{m+=$1} END{print m;}’
+  $ python search_engine.py -h
+  usage: search_engine.py [-h] [--time TIME] [--match MATCH] [-c] [-s] [-v]
+  
+  optional arguments:
+    -h, --help     show this help message and exit
+    --time TIME    time explain regexp(YYYY/MM/DD/HH/MIN). eg: 2017/04/27/10/*
+    --match MATCH  matching keyword. eg: noc or 'noc Login'
+    -c             count
+    -s             sum
+    -v             verbose
+   
+   $ python search_engine.py --time 2017/05/11/13/* --match 'keyword' -c 
+   ```
+ - Architecture image
+  ![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")
 
-  Parallel Processing : parallel + sqlite command Aggregator : pipe(|) + shell script(awk)
-  ```
+# Search condition
+- case-insensitive
+  - no distinguish uppercase or lowercase
+- AND
+    ```
+    --match 'Hello World'
+    ```
+- OR
+    ```
+    --match 'Hello OR World'
+    ```
+- NOT
+    ```
+    --match 'Hello World -Wide'
+    ```
+- PHRASE
+    ```
+    --match '"Hello World"'
+    ```
+- asterisk(*)
+    ```
+    --match 'H* World'
+    ```
+- HAT
+    ```
+    --match '^Hello World'
+    ```
 
-- Architecture Image
-![Hayabusa Architecture](./image/hayabusa-arch.png "hayabusa architecture image")
-
-# Development Environment
+# Development environment
 - CentOS 7.3
 - Python 3.5.1(use anaconda packages)
 - SQLite3(version 3.9.2)
 
-# Dependency Softwares
+# Dependency softwares
 - Python 3
 - SQLite3
 - GNU Parallel

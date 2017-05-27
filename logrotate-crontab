@@ -1,1 +1,2 @@
 * * * * * root logrotate -f /etc/logrotate.d/hayabusa
+* * * * * root /home/XXXXXXX/anaconda3/bin/python /home/XXXXX/work/hayabusa/store_engine.py

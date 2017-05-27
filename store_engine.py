@@ -7,11 +7,12 @@ from distutils.dir_util import mkpath
 
 LOG_FILE = '/var/log/messages.1'
 BASE_DIR = '/var/tmp/data'
+CONFIG   = '/path/to/config.ini'
 
 def main():
     now = datetime.datetime.now()
     dir_path = '%d/%02d/%02d/%02d' % (now.year, now.month, now.day, now.hour)
-    db_file = '%d.db' % (now.minute - 1)
+    db_file = '%d.db' % (now.minute)
     db_path = '%s/%s/%s' % (BASE_DIR, dir_path, db_file)
 
     dir_path = '%s/%s' %(BASE_DIR, dir_path)
@@ -38,7 +39,7 @@ def main():
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(CONFIG)
 
     LOG_FILE = config['path']['log-file']
     BASE_DIR = config['path']['base-dir']

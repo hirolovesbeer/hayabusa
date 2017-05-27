@@ -3,6 +3,7 @@ import configparser
 import subprocess
 
 BASE_DIR = '/var/tmp/data'
+CONFIG   = '/path/to/config.ini'
 
 def exec(args):
     time    = args.time
@@ -31,7 +32,7 @@ def exec(args):
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(CONFIG)
 
     BASE_DIR = config['path']['base-dir']
 

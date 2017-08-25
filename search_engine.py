@@ -1,6 +1,7 @@
 import argparse
 import configparser
 import subprocess
+import shlex
 
 BASE_DIR = '/var/tmp/data'
 CONFIG   = '/path/to/config.ini'
@@ -8,20 +9,32 @@ CONFIG   = '/path/to/config.ini'
 def exec(args):
     time    = args.time
     match   = args.match
+    exact   = args.e
     count   = args.c
     sum     = args.s
     verbose = args.v
 
     if count:
         if sum:
-            cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select count(*) from syslog where logs match \'%s\';" | awk \'{m+=$1} END{print m;}\'' % (BASE_DIR, time, match)
+            if exact:
+                cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select count(*) from syslog where logs match %s;" | awk \'{m+=$1} END{print m;}\'' % (BASE_DIR, time, shlex.quote('\\"%s\\"' % match))
+            else:
+                cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select count(*) from syslog where logs match \'%s\';" | awk \'{m+=$1} END{print m;}\'' % (BASE_DIR, time, match)
         else:
-            cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select count(*) from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
+            if exact:
+                cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select count(*) from syslog where logs match %s;"' % (BASE_DIR, time, shlex.quote('\\"%s\\"' % match))
+            else:
+                cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select count(*) from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
 
         # debug code
         # cmd = 'parallel sqlite3 ::: /mnt/ssd1/benchmark-db/100k/100k-1.db ::: "select count(*) from syslog where logs match \'noc\';"'
+
     else:
-        cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select * from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
+        if exact:
+            cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select * from syslog where logs match %s;"' % (BASE_DIR, time, shlex.quote('\\"%s\\"' % match))
+        else:
+            cmd = 'parallel sqlite3 ::: %s/%s.db ::: "select * from syslog where logs match \'%s\';"' % (BASE_DIR, time, match)
+
         # debug code
         # cmd = 'parallel sqlite3 ::: /mnt/ssd1/benchmark-db/100k/100k-1.db ::: "select * from syslog where logs match \'noc\';"'
 
@@ -41,6 +54,8 @@ if __name__ == '__main__':
                         help="time explain regexp(YYYY/MM/DD/HH/MIN). eg: 2017/04/27/10/*")
     parser.add_argument("--match",
                         help="matching keyword. eg: noc or 'noc Login'")
+    parser.add_argument("-e",
+                        help="exact match", action="store_true")
     parser.add_argument("-c",
                         help="count", action="store_true")
     parser.add_argument("-s",

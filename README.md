@@ -41,6 +41,7 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
     -h, --help     show this help message and exit
     --time TIME    time explain regexp(YYYY/MM/DD/HH/MIN). eg: 2017/04/27/10/*
     --match MATCH  matching keyword. eg: noc or 'noc Login'
+    -e             exact match
     -c             count
     -s             sum
     -v             verbose
@@ -53,6 +54,11 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
 # Search condition
 - case-insensitive
   - no distinguish uppercase or lowercase
+- Exact match
+    ```
+    -e --match '192.168.0.1'
+    ```
+    
 - AND
     ```
     --match 'Hello World'
@@ -68,6 +74,8 @@ Hayabusa: A Simple and Fast Full-Text Search Engine for Massive System Log Data
 - PHRASE
     ```
     --match '"Hello World"'
+    --match '\"192.168.0.1\"' <- IP address case(same as -e flag)
+    --match '\"192.168.0.1\" src sent' <- PHRASE + AND search
     ```
 - asterisk(*)
     ```

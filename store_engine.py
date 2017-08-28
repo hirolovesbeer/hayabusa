@@ -27,7 +27,7 @@ def main():
     conn.execute("PRAGMA SYNCHRONOUS = OFF");
     conn.execute("PRAGMA JOURNAL_MODE = MEMORY");
 
-    with open(LOG_FILE) as fh:
+    with open(LOG_FILE, "r", encoding="utf-8", errors='ignore') as fh:
         lines = [[line] for line in fh]
 
         try:

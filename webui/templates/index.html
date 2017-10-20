@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+	</head>
+	<script>
+$(document).ready( function () {
+
+	var table = $('#table_id_example').DataTable({
+            <!--"processing": true,-->
+			<!--"serverSide": true,-->
+			"ajax": "/dt"
+
+
+	});
+	 $('#table_id_example tbody').on( 'click', 'tr', function () {
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+		}
+		else {
+			table.$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+	} );
+	$("#table_id_example_button").click(function () {
+		var column1 = table.row('.selected').data().column1;
+		var column2 = table.row('.selected').data().column2;
+	});
+
+	$('#table_id_example tbody').on('click', 'tr', function () {
+        var data = table.row( this ).data();
+    } );
+} );
+</script>
+
+<body>
+
+<!-- Navbar Start-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand text-primary">
+                Hayabusa Search UI 
+            </a>
+        </div>
+        <p class="navbar-text">Username : {{ username }}</p>
+    </div>
+</nav>
+<!-- End of Navber -->
+
+<div>
+<form action="/post" method="post" class="form-inline">
+    <div class="input-group">
+        <span class="input-group-addon">Target time</span>
+        <input type="text" class="form-control" id="time" name="time" placeholder="YYYY/MM/DD/HH/MIN" value="{{ time }}">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">Search keyarod</span>
+        <input type="text" class="form-control" id="keyword" name="keyword" placeholder="192.168" value="{{ keyword }}">
+    </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+
+<hr>
+
+<table id="table_id_example" class="display">
+	<thead>
+		<tr>
+			{% for col in columns %}
+				<th>{{ col }}</th>
+				{% endfor %}
+		</tr>
+	</thead>
+</table>
+</body>
+</html>

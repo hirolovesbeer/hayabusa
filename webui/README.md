@@ -4,7 +4,7 @@ This is the Hayabusa Web UI using flask framework
 # Dependency softwares
 - Python 3
 - flask
- flask-httpauth
+- flask-httpauth
 - Bootstrap3
 
 # WebUI image

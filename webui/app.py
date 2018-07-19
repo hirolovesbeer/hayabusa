@@ -1,6 +1,7 @@
 import os
 import json
 import subprocess
+from datetime import datetime as dt
 
 from flask import Flask, request, render_template, jsonify, redirect, url_for
 # conda install -c conda-forge flask-httpauth
@@ -15,7 +16,7 @@ users = {
 }
 
 result_file = '/var/tmp/result.log'
-search_engine_path = 'path to search_engine.py'
+search_engine_path = '/opt/hayabusa/search_engine.py'
 
 columns = ["syslog"]
 collection = [{columns[0] : ''}]
@@ -81,12 +82,21 @@ def get_pw(username):
         return users.get(username)
     return None
 
-@app.route('/')
+@app.route('/', methods=['GET'])
+def get():
+    tmp_file = '%s-%s' % (result_file, auth.username())
+    cmd = "/bin/rm %s" % (tmp_file) 
+    subprocess.call(cmd, shell=True)
+
+    time = dt.now().strftime('%Y/%m/%d/%H/%M')
+    return render_template('index_get.html', columns=columns, time=time)
+
+
 @auth.login_required
 def index():
     tmp_file = '%s-%s' % (result_file, auth.username())
 
-    cmd = "/usr/bin/rm %s" % (tmp_file) 
+    cmd = "/bin/rm %s" % (tmp_file) 
     subprocess.call(cmd, shell=True)
 
     return render_template('index.html', columns=columns, username=auth.username())
@@ -100,19 +110,22 @@ def get_server_data():
     # return the results as a string for the datatable
     return json.dumps(results)
 
-@app.route('/post', methods=['GET', 'POST'])
+@app.route('/post', methods=['POST'])
 def post():
+    print('do post')
     if request.method == 'POST':
         time = request.form['time']
         keyword = request.form['keyword']
 
         tmp_file = '%s-%s' % (result_file, auth.username())
-        cmd = "%s -e --time %s --match %s | /usr/bin/grep -v -e '^\s*#' -e '^\s*$'  > %s" % (search_engine_path, time, keyword, tmp_file) 
+        #cmd = "%s -e --time %s --match %s | /bin/grep -v -e '^\s*#' -e '^\s*$'  > %s" % (search_engine_path, time, keyword, tmp_file) 
+        cmd = "%s -e --time %s --match %s | sed '/^$/d' > %s" % (search_engine_path, time, keyword, tmp_file) 
         subprocess.call(cmd, shell=True)
 
         return render_template('index.html', columns=columns, time=time, keyword=keyword, username=auth.username())
     else:
-        return render_template('index.html', columns=columns)
+        time = dt.now().strftime('%Y/%m/%d/%H/%M')
+        return render_template('index_get.html', columns=columns, time=time)
 
 
 if __name__ == '__main__':
